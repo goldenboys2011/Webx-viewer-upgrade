@@ -30,8 +30,8 @@ function convert(l, ip) {
     }
     if (['audio','img'].includes(e.name)) {
       if (!e.attributes?.src?.includes('://')) e.attributes.src = normalizeIp(ip, e.attributes?.src);
-      console.log(attr(e.attributes))
-      return [`<${e.name} ${attr(e.attributes)} controls>${e.name==='img'?'':`</${e.name}>`}`, [], []]
+      console.log(e.attributes)
+      return [`<${e.name} ${attr(e.attributes)} controls ${'autoplay' in e.attributes?' autoplay': ''}>${e.name==='img'?'':`</${e.name}>`}`, [], []]
     }
     if ((typeof e.content)==='string') {
       return [`<${e.name} ${attr(e.attributes)}>${e.content}</${e.name}>`, [], []]
