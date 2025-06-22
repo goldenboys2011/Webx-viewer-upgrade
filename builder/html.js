@@ -1,7 +1,7 @@
 //const htmlUnallowedElements = ['style'];
 
 function attr(o) {
-  let allowed = ['href','src','name','content','class','version','placeholder','type', 'autoplay'];
+  let allowed = ['href','src','name','content','class','version','placeholder','type', 'autoplay', 'hidden'];
   return Object.keys(o).map(t=>allowed.includes(t)?`${t}="${o[t]}"`:'').join(' ')
 }
 
