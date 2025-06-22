@@ -1,0 +1,71 @@
+<html lang="en"><head>
+    <title>Buss search</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        background-color: #181818;
+        color: #ffffff;
+        font-family: Lexend, Arial;
+      }
+      img[src=""] {
+        display: none;
+      }
+      .result {
+        margin: 2px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-left: 4px;
+      }
+      p {
+        margin: 2px;
+      }
+      input, button {
+        background: transparent;
+        color: #fff;
+        border: 2px #fff solid;
+        margin: 2px;
+        padding: 2px;
+        border-radius: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <input id="in"><button id="ser">Search</button>
+    <label>New?:<input type="checkbox" id="new"></label>
+    <p id="info"></p>
+    <div id="con"></div>
+    <script>
+      function search() {
+        document.getElementById('info').innerHTML = 'searching...'
+        fetch('https://api.fsh.plus/buss?q='+document.getElementById('in').value+'&new='+document.getElementById('new').checked)
+          .then(async e => {
+            e = await e.json();
+            document.getElementById('info').innerHTML = e.length + ' results'
+            let c = '';
+            e.forEach(t => {
+              c += `<div class="result"${t.color.length ? ' style="border-left: 2px '+t.color+' solid"' : ''}>
+  ${t.favicon?`<img src="${t.favicon}" width="20" height="20">`:''}
+  <div>
+    <p>${t.quality ? '⭐ ' : ''}${t.title.slice(0, 40)}${t.title.slice(0, 40) !== t.title ? '...' : ''}${t.title?' · ':''}${t.url}</p>
+    <p>${t.desc??t.text.slice(0,20)}</p>
+  </div>
+</div>`;
+            })
+            document.getElementById('con').innerHTML = c
+          })
+      }
+
+      document.getElementById('ser').onclick = function(){
+        search()
+      }
+      document.getElementById('in').onkeyup = function(event){
+        if (event.key !== 'Enter') return;
+        search()
+      }
+      search()
+    </script>
+  
+</body></html>

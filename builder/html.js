@@ -1,7 +1,7 @@
 const htmlUnallowedElements = ['style'];
 
 function attr(o) {
-  let allowed = ['href','src','name','content','class','version','placeholder','type'];
+  let allowed = ['href','src','name','content','class','version','placeholder','type', 'autoplay'];
   return Object.keys(o).map(t=>allowed.includes(t)?`${t}="${o[t]}"`:'').join(' ')
 }
 
@@ -31,7 +31,7 @@ function convert(l, ip) {
     if (['audio','img'].includes(e.name)) {
       if (!e.attributes?.src?.includes('://')) e.attributes.src = normalizeIp(ip, e.attributes?.src);
       console.log(e.attributes)
-      return [`<${e.name} ${attr(e.attributes)} controls ${'autoplay' in e.attributes?' autoplay': ''}>${e.name==='img'?'':`</${e.name}>`}`, [], []]
+      return [`<${e.name} ${attr(e.attributes)} controls>${e.name==='img'?'':`</${e.name}>`}`, [], []]
     }
     if ((typeof e.content)==='string') {
       return [`<${e.name} ${attr(e.attributes)}>${e.content}</${e.name}>`, [], []]

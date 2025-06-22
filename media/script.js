@@ -65,7 +65,7 @@ function bussFetch(ip, path) {
     }
   });
 }
-function getTarget(domain) {
+function getTarget(domain, dns = document.getElementById('dns').value) {
   return new Promise((resolve, reject)=>{
     if (window.cache.fetch[domain]) {
       resolve(window.cache.fetch[domain]);
@@ -73,7 +73,7 @@ function getTarget(domain) {
     try {
       domain = domain.toLowerCase().trim().replace(/^.*?:\/\//m,'').split('/')[0].split('?')[0].trim();
       if (!(/^([a-z0-9\-]*\.)+[a-z0-9\-]*$/mi).test(domain)) reject('Invalid domain name contents');
-      fetch(new URL(`/domain/${domain.replace('.','/')}`, document.getElementById('dns').value))
+      fetch(new URL(`/domain/${domain.replace('.','/')}`, dns))
         .then(res=>res.json())
         .then(res=>{
           window.cache.fetch[domain] = res.ip;
@@ -181,6 +181,7 @@ async function view() {
     try {
       target = await getTarget(ip);
       if (!target) throw new Error('Website not found');
+      target = await getTarget(ip, "https://dns.golden.hackclub.app");
     } catch(err) {
       alert(err);
       return;
