@@ -176,6 +176,7 @@ async function view() {
   document.getElementById('url').value = ip;
   let query = ip.split('?')[1]??'';
   let target = ip;
+  let target2 = ""
 
   if (!(/^https?:\/\//m).test(ip)) {
     try {
