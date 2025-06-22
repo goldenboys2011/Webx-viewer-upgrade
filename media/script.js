@@ -176,14 +176,15 @@ async function view() {
   document.getElementById('url').value = ip;
   let query = ip.split('?')[1]??'';
   let target = ip;
-  let target2 = ""
 
   if (!(/^https?:\/\//m).test(ip)) {
     try {
       target = await getTarget(ip);
-      if (!target) target2 = await getTarget(ip, "https://dns.golden.hackclub.app");
-      if (!target2) throw new Error('Website not found');
-
+      if (!target) {
+        stdout('[Info] Primary DNS failed, trying fallback...', 'warn');
+        target = await getTarget(ip, "https://dns.golden.hackclub.app");
+      }
+      if (!target) throw new Error('Website not found');
     } catch(err) {
       alert(err);
       return;
