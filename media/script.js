@@ -180,8 +180,9 @@ async function view() {
   if (!(/^https?:\/\//m).test(ip)) {
     try {
       target = await getTarget(ip);
-      if (!target) throw new Error('Website not found');
-      target = await getTarget(ip, "https://dns.golden.hackclub.app");
+      if (!target) target2 = await getTarget(ip, "https://dns.golden.hackclub.app");
+      if (!target2) throw new Error('Website not found');
+
     } catch(err) {
       alert(err);
       return;
