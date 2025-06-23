@@ -42,7 +42,7 @@ function bussFetch(ip, path) {
     if (new URL(ip).hostname==='github.com') {
       stdout('[Warn] This website is using the outdated github dns target.', 'warn')
       if (path=='') path = 'index.html';
-      ip = ip.replace('github.com','raw.githubusercontent.com')+(ip.includes('/main/')?'':'/main/')+'/'+path;
+      ip = ip.replace('github.com','raw.githubusercontent.com')+(ip.includes('/main/')?'':'/refs/heads/main/')+'/'+path;
       ip = ip.replace('/tree/','/').replaceAll(/\/{2,}/g,'/').replace(':/','://');
     } else {
       ip += path;
