@@ -98,7 +98,16 @@ export async function createLegacyLua(doc, options, stdout) {
       location: document.getElementById('url').value,
       query: query,
       browser: "bussinga",
-      true_browser: "wxv"
+      true_browser: "wxv",
+      browserName: navigator.appName
+    });
+  }else{
+      await lua.global.set('window', {
+      location: document.getElementById('url').value,
+      query: query,
+      browser: "napture",
+      true_browser: "wxv",
+      browserName: navigator.appName
     });
   }
   lua.global.set("Promise", {
