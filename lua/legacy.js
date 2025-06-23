@@ -63,6 +63,21 @@ export async function createLegacyLua(doc, options, stdout) {
     stdout(`[Log]: ${text}`);
   });
 
+  await lua.global.set('setInterval', (callback, interval) => {
+    const intervalId = setInterval(() => {
+      try {
+        callback(); 
+      } catch (err) {
+        stdout(err, 'error');
+      }
+    }, interval);
+    return intervalId;
+  });
+
+  await lua.global.set('clearInterval', (intervalId) => {
+    clearInterval(intervalId);
+  });
+
   await lua.global.set('get', (clas, all=false) => {
     clas = clas.trim();
     if (all) {
